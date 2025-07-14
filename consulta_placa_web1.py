@@ -31,10 +31,12 @@ HTML_TEMPLATE = """
         <li><strong>Placa:</strong> {{ dados.get('placa') }}</li>
         <li><strong>Marca:</strong> {{ dados.get('marca') }}</li>
         <li><strong>Modelo:</strong> {{ dados.get('modelo') }}</li>
-        <li><strong>Ano:</strong> {{ dados.get('ano') }}</li>
+        <li><strong>Ano Fabricacao:</strong> {{ dados.get('ano_fabricacao') }}</li>
+        <li><strong>Ano Modelo:</strong> {{ dados.get('ano_modelo') }}</li>
         <li><strong>Cor:</strong> {{ dados.get('cor') }}</li>
         <li><strong>Município:</strong> {{ dados.get('municipio') }}</li>
         <li><strong>Chassi:</strong> {{ dados.get('chassi') }}</li>
+        <li><strong>Sub Segmento:</strong> {{ dados.get('sub_seg') }}</li>
     </ul>
     {% endif %}
 
@@ -65,10 +67,12 @@ def consultar_placa():
                     "placa": placa,
                     "marca": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("marca", "N/A"),
                     "modelo": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("modelo", "N/A"),
-                    "ano": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("ano", "N/A"),
+                    "ano_fabricacao": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("ano_fabricacao", "N/A"),
+                    "ano_modelo": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("ano_modelo", "N/A"),
                     "cor": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("cor", "N/A"),
                     "municipio": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("municipio", "N/A"),
-                    "chassi": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("chassi", "N/A")
+                    "chassi": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("chassi", "N/A"),
+                    "sub_seg": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_tecnicos").get("sub_segmento", "N/A")
                 }
                 print(json.dumps(resp_json, indent=2))
             else:
