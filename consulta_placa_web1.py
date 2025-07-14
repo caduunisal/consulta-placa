@@ -3,13 +3,14 @@
 
 from flask import Flask, request, jsonify, render_template_string
 import requests
+import json
 
 app = Flask(__name__)
 
 # Configurações da API
 API_URL = "https://api.consultarplaca.com.br/v2/consultarPlaca"
 API_USER = "kadu.unisal1@gmail.com"
-API_PASS = "timbiras64512#1977!"
+API_PASS = "1ee5749a1b122bef69c0eaeee0d0dc2a"
 
 HTML_TEMPLATE = """
 <!DOCTYPE html>
@@ -58,16 +59,18 @@ def consultar_placa():
                 auth=(API_USER, API_PASS)
             )
             if response.status_code == 200:
+                
                 resp_json = response.json()
                 dados = {
                     "placa": placa,
-                    "marca": resp_json.get("marca", "N/A"),
-                    "modelo": resp_json.get("modelo", "N/A"),
-                    "ano": resp_json.get("ano", "N/A"),
-                    "cor": resp_json.get("cor", "N/A"),
-                    "municipio": resp_json.get("municipio", "N/A"),
-                    "chassi": resp_json.get("chassi", "N/A")
+                    "marca": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("marca", "N/A"),
+                    "modelo": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("modelo", "N/A"),
+                    "ano": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("ano", "N/A"),
+                    "cor": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("cor", "N/A"),
+                    "municipio": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("municipio", "N/A"),
+                    "chassi": resp_json.get("dados", {}).get("informacoes_veiculo", {}).get("dados_veiculo").get("chassi", "N/A")
                 }
+                print(json.dumps(resp_json, indent=2))
             else:
                 erro = f"Erro na consulta: {response.status_code} - {response.text}"
         except Exception as e:
@@ -76,4 +79,4 @@ def consultar_placa():
     return render_template_string(HTML_TEMPLATE, dados=dados, erro=erro)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="127.0.0.1", port=5050)
