@@ -6,9 +6,11 @@ import requests
 
 app = Flask(__name__)
 
-# Substitua pela URL real da API e sua chave (exemplo fictício abaixo)
-API_URL = "https://api.consultarplaca.com.br/v1/veiculo"
-API_KEY = "SUA_CHAVE_API_AQUI"
+# Configurações da API
+API_URL = "https://api.consultarplaca.com.br/v2/consultarPlaca"
+API_USER = "kadu.unisal1@gmail.com"
+API_PASS = "timbiras64512#1977!"
+
 
 @app.route("/consulta", methods=["GET"])
 def consultar_placa():
@@ -18,7 +20,7 @@ def consultar_placa():
         return jsonify({"erro": "Parâmetro 'placa' é obrigatório."}), 400
 
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {API_PASS}",
         "Content-Type": "application/json"
     }
 
@@ -35,4 +37,4 @@ def consultar_placa():
         return jsonify({"erro": "Erro interno ao consultar placa", "detalhes": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
